@@ -1,0 +1,37 @@
+* { font-family: 'Rajdhani', sans-serif; }
+body { background: linear-gradient(135deg, #000000 0%, #1a0000 100%); min-height: 100vh; color: #fff; }
+.navbar { background: linear-gradient(90deg, #000000 0%, #dc143c 100%); box-shadow: 0 4px 20px rgba(220, 20, 60, 0.6); }
+.navbar-brand { color: #fff !important; font-weight: 700; font-size: 1.6rem; display: flex; align-items: center; gap: 10px; }
+.navbar-brand img { height: 45px; border-radius: 50%; border: 2px solid #ffd700; }
+.nav-link { color: #fff !important; font-weight: 600; margin: 0 8px; }
+.nav-link:hover { color: #ffd700 !important; }
+.card { background: linear-gradient(145deg, #111, #000); border: 2px solid #dc143c; border-radius: 12px; color: #fff; box-shadow: 0 8px 32px rgba(220,20,60,0.4); }
+.card-header { background: linear-gradient(90deg, #dc143c, #8b0000); border: none; font-weight: 700; font-size: 1.1rem; }
+.btn-primary { background: linear-gradient(90deg, #dc143c, #ff0000); border: none; font-weight: 600; }
+.btn-primary:hover { background: linear-gradient(90deg, #ff0000, #dc143c); }
+.btn-danger { background: linear-gradient(90deg, #8b0000, #dc143c); border: none; }
+.form-control, .form-select { background: #111; border: 1px solid #dc143c; color: #fff; }
+.form-control:focus, .form-select:focus { background: #111; color: #fff; border-color: #ff0000; box-shadow: 0 0 0 0.25rem rgba(220,20,60,0.25); }
+.table { --bs-table-bg: transparent; --bs-table-color: #fff; --bs-table-hover-color: #fff; }
+.logo-big { display: flex; align-items: center; justify-content: center; gap: 15px; }
+.logo-big img { height: 80px; border-radius: 50%; border: 3px solid #ffd700; box-shadow: 0 0 30px rgba(255,215,0,0.5); }
+.brand-text { font-size: 3rem; font-weight: 700; background: linear-gradient(90deg, #fff, #ffd700, #dc143c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.gold { color: #ffd700; }
+/* Invoice */
+.invoice-box { max-width: 800px; margin: auto; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.4); color: #111; }
+.invoice-header { background: linear-gradient(90deg, #000 0%, #dc143c 100%); color: #fff; padding: 25px; display: flex; align-items: center; gap: 20px; }
+.invoice-header img { height: 80px; border-radius: 50%; border: 3px solid #ffd700; }
+.shop-name { font-size: 2rem; font-weight: 700; margin: 0; }
+.invoice-title { text-align: center; background: #0a0a0a; color: #ffd700; padding: 10px; font-weight: 700; letter-spacing: 3px; }
+.invoice-body { padding: 25px; }
+.info-label { font-weight: 700; color: #dc143c; }
+.invoice-box .table thead th { background: #0a0a0a; color: #fff; }
+.invoice-box .table { --bs-table-color: #111; }
+.total-row td { background: #f8d7da !important; font-weight: 700; font-size: 1.2rem; }
+.invoice-footer { background: #0a0a0a; color: #adb5bd; text-align: center; padding: 15px; }
+.actions { max-width: 800px; margin: 0 auto 15px; display: flex; gap: 10px; justify-content: flex-end; }
+@media print {
+  body { background: #fff; }
+  #nav, .actions, #flash { display: none !important; }
+  .invoice-box { box-shadow: none; max-width: 100%; }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "shivaji-bikers",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@netlify/database": "^2.0.1",
+    "@netlify/identity": "^2.0.0"
+  },
+  "devDependencies": {
+    "@netlify/functions": "^6.0.3",
+    "vite": "^8.3.5"
+  }
+}

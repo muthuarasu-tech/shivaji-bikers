@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Reports - BikeCare{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Reports & Analytics</h1>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white shadow">
+            <div class="card-body">
+                <h6>Daily Services</h6>
+                <h3>{{ daily_services }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white shadow">
+            <div class="card-body">
+                <h6>Daily Collections</h6>
+                <h3>₹{{ "%.2f"|format(daily_collections) }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-white shadow">
+            <div class="card-body">
+                <h6>Outstanding</h6>
+                <h3>₹{{ "%.2f"|format(outstanding) }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-danger text-white shadow">
+            <div class="card-body">
+                <h6>Low Stock Items</h6>
+                <h3>{{ low_stock }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow">
+    <div class="card-header">
+        <h6 class="m-0">Available Reports</h6>
+    </div>
+    <div class="card-body">
+        <ul class="list-group">
+            <li class="list-group-item"><i class="bi bi-file-text"></i> Daily Service Report</li>
+            <li class="list-group-item"><i class="bi bi-file-text"></i> Monthly Collections Report</li>
+            <li class="list-group-item"><i class="bi bi-file-text"></i> Outstanding Payments Report</li>
+            <li class="list-group-item"><i class="bi bi-file-text"></i> Spare Parts Usage Report</li>
+            <li class="list-group-item"><i class="bi bi-file-text"></i> Low Stock Report</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Bikes - BikeCare{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Bike Management</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{{ url_for('add_bike') }}" class="btn btn-sm btn-primary"><i class="bi bi-plus-circle"></i> Register Bike</a>
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <form method="GET" class="row g-3">
+            <div class="col-md-10">
+                <input type="text" class="form-control" name="search" placeholder="Search by reg no, owner name, or phone" value="{{ search }}">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100"><i class="bi bi-search"></i> Search</button>
+            </div>
+        </form>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Bike ID</th>
+                        <th>Reg No</th>
+                        <th>Brand/Model</th>
+                        <th>Owner</th>
+                        <th>Phone</th>
+                        <th>Odometer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for b in bikes %}
+                    <tr>
+                        <td>{{ b.bike_id }}</td>
+                        <td>{{ b.registration_number }}</td>
+                        <td>{{ b.brand }} {{ b.model }}</td>
+                        <td>{{ b.full_name }}</td>
+                        <td>{{ b.phone_primary }}</td>
+                        <td>{{ b.odometer_reading }} km</td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="6" class="text-center">No bikes found</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

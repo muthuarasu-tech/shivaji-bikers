@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Database Viewer - BikeCare{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Database Records</h1>
+</div>
+
+<div class="card shadow">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs" id="dbTabs" role="tablist">
+            {% for t in tables %}
+            <li class="nav-item" role="presentation">
+                <button class="nav-link {% if loop.first %}active{% endif %}" id="{{t}}-tab" data-bs-toggle="tab" data-bs-target="#{{t}}" type="button">{{t|title}}</button>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="tab-content" id="dbTabsContent">
+            <div class="tab-pane fade show active">
+                <p class="text-muted">Database: instance/bikecare.db</p>
+                <p>Use DB Browser for SQLite to view/edit the database file directly.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

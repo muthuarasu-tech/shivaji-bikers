@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Settings - BikeCare{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Settings</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow mb-4">
+            <div class="card-header bg-primary text-white">
+                <h6 class="m-0">Shop Settings</h6>
+            </div>
+            <div class="card-body">
+                <p><strong>Shop Name:</strong> {{ shop.shop_name if shop else 'N/A' }}</p>
+                <p><strong>Address:</strong> {{ shop.address if shop else 'N/A' }}</p>
+                <p><strong>Phone:</strong> {{ shop.phone if shop else 'N/A' }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow mb-4">
+            <div class="card-header bg-warning">
+                <h6 class="m-0">Database Backup</h6>
+            </div>
+            <div class="card-body">
+                <p>Download a backup of the SQLite database.</p>
+                <a href="{{ url_for('backup_database') }}" class="btn btn-warning"><i class="bi bi-download"></i> Download Backup</a>
+                <hr>
+                <p class="text-muted small">Database Location: instance/bikecare.db</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

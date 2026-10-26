@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Inventory - BikeCare{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Spare Parts Inventory</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{{ url_for('add_part') }}" class="btn btn-sm btn-primary"><i class="bi bi-plus-circle"></i> Add Part</a>
+    </div>
+</div>
+
+<div class="alert alert-info">Low Stock Items: {{ low_stock }}</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <form method="GET" class="row g-3">
+            <div class="col-md-10">
+                <input type="text" class="form-control" name="search" placeholder="Search parts" value="{{ search }}">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100"><i class="bi bi-search"></i> Search</button>
+            </div>
+        </form>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Part ID</th>
+                        <th>Part Name</th>
+                        <th>Part No</th>
+                        <th>Brand</th>
+                        <th>Purchase Cost</th>
+                        <th>Selling Price</th>
+                        <th>Stock</th>
+                        <th>Min Stock</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in parts %}
+                    <tr>
+                        <td>{{ p.part_id }}</td>
+                        <td>{{ p.part_name }}</td>
+                        <td>{{ p.part_number or '-' }}</td>
+                        <td>{{ p.brand or '-' }}</td>
+                        <td>₹{{ "%.2f"|format(p.purchase_cost) }}</td>
+                        <td>₹{{ "%.2f"|format(p.selling_price) }}</td>
+                        <td>{{ p.stock_quantity }}</td>
+                        <td>{{ p.min_stock_level }}</td>
+                        <td>
+                            {% if p.stock_quantity <= p.min_stock_level %}
+                            <span class="badge bg-danger">Low Stock</span>
+                            {% else %}
+                            <span class="badge bg-success">In Stock</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="9" class="text-center">No parts found</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

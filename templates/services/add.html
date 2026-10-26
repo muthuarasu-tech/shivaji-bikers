@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}New Service Job - BikeCare{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Create New Service Job</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{{ url_for('services') }}" class="btn btn-sm btn-secondary"><i class="bi bi-arrow-left"></i> Back</a>
+    </div>
+</div>
+
+<div class="card shadow">
+    <div class="card-body">
+        <form method="POST">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="bike_id" class="form-label">Select Bike *</label>
+                    <select class="form-select" id="bike_id" name="bike_id" required>
+                        <option value="">Select Bike</option>
+                        {% for b in bikes %}
+                        <option value="{{ b.id }}">{{ b.registration_number }} - {{ b.brand }} {{ b.model }} ({{ b.full_name }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="customer_id" class="form-label">Customer *</label>
+                    <select class="form-select" id="customer_id" name="customer_id" required>
+                        <option value="">Select Customer</option>
+                        {% for b in bikes %}
+                        <option value="{{ b.customer_id }}">{{ b.full_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="service_date" class="form-label">Service Date *</label>
+                    <input type="date" class="form-control" id="service_date" name="service_date" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="entry_time" class="form-label">Entry Time</label>
+                    <input type="time" class="form-control" id="entry_time" name="entry_time">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="odometer_reading" class="form-label">Odometer Reading (km)</label>
+                    <input type="number" class="form-control" id="odometer_reading" name="odometer_reading">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="assigned_mechanic" class="form-label">Assigned Mechanic</label>
+                    <input type="text" class="form-control" id="assigned_mechanic" name="assigned_mechanic">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="expected_delivery_date" class="form-label">Expected Delivery Date</label>
+                    <input type="date" class="form-control" id="expected_delivery_date" name="expected_delivery_date">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="expected_delivery_time" class="form-label">Expected Delivery Time</label>
+                    <input type="time" class="form-control" id="expected_delivery_time" name="expected_delivery_time">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="customer_complaint" class="form-label">Customer Complaint</label>
+                <textarea class="form-control" id="customer_complaint" name="customer_complaint" rows="2"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="initial_inspection" class="form-label">Initial Inspection</label>
+                <textarea class="form-control" id="initial_inspection" name="initial_inspection" rows="2"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="work_requested" class="form-label">Work Requested</label>
+                <textarea class="form-control" id="work_requested" name="work_requested" rows="2"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="additional_notes" class="form-label">Additional Notes</label>
+                <textarea class="form-control" id="additional_notes" name="additional_notes" rows="2"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Job Card</button>
+        </form>
+    </div>
+</div>
+<script>
+document.getElementById('service_date').valueAsDate = new Date();
+document.getElementById('entry_time').value = new Date().toTimeString().slice(0,5);
+</script>
+{% endblock %}

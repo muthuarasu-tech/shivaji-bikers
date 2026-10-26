@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Register Bike - BikeCare{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Register New Bike</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{{ url_for('bikes') }}" class="btn btn-sm btn-secondary"><i class="bi bi-arrow-left"></i> Back</a>
+    </div>
+</div>
+
+<div class="card shadow">
+    <div class="card-body">
+        <form method="POST">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="customer_id" class="form-label">Customer *</label>
+                    <select class="form-select" id="customer_id" name="customer_id" required>
+                        <option value="">Select Customer</option>
+                        {% for c in customers %}
+                        <option value="{{ c.id }}">{{ c.customer_id }} - {{ c.full_name }} ({{ c.phone_primary }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="registration_number" class="form-label">Registration Number *</label>
+                    <input type="text" class="form-control" id="registration_number" name="registration_number" required placeholder="e.g., TN01AB1234">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="brand" class="form-label">Brand *</label>
+                    <input type="text" class="form-control" id="brand" name="brand" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="bike_name" class="form-label">Bike Name</label>
+                    <input type="text" class="form-control" id="bike_name" name="bike_name">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="model" class="form-label">Model</label>
+                    <input type="text" class="form-control" id="model" name="model">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label for="manufacturing_year" class="form-label">Manufacturing Year</label>
+                    <input type="number" class="form-control" id="manufacturing_year" name="manufacturing_year">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="fuel_type" class="form-label">Fuel Type</label>
+                    <select class="form-select" id="fuel_type" name="fuel_type">
+                        <option value="">Select</option>
+                        <option value="Petrol">Petrol</option>
+                        <option value="Electric">Electric</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="odometer_reading" class="form-label">Odometer (km)</label>
+                    <input type="number" class="form-control" id="odometer_reading" name="odometer_reading" value="0">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="colour" class="form-label">Colour</label>
+                    <input type="text" class="form-control" id="colour" name="colour">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="engine_number" class="form-label">Engine Number</label>
+                    <input type="text" class="form-control" id="engine_number" name="engine_number">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="chassis_number" class="form-label">Chassis Number</label>
+                    <input type="text" class="form-control" id="chassis_number" name="chassis_number">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="notes" class="form-label">Notes</label>
+                <textarea class="form-control" id="notes" name="notes" rows="2"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Register Bike</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

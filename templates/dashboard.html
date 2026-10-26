@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="text-center mb-4">
+    <div class="logo-big">
+        <img src="{{ url_for('static', filename='logo.png') }}" onerror="this.src='{{ url_for('static', filename='logo.jpg') }}'">
+        <div class="brand-text">SHIVAJI BIKERS</div>
+    </div>
+    <p class="text-white">Bike Service & Repair Management</p>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-file-earmark-text" style="font-size: 2rem; color: #dc143c;"></i>
+                <h3>{{ total_jobs }}</h3>
+                <p>Total Jobs</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-receipt" style="font-size: 2rem; color: #ffd700;"></i>
+                <h3>₹{{ "%.2f"|format(total_billed) }}</h3>
+                <p>Total Billed</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-gear" style="font-size: 2rem; color: #ffa500;"></i>
+                <h3>₹{{ "%.2f"|format(spare_total) }}</h3>
+                <p>Spare Total</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-wrench" style="font-size: 2rem; color: #32cd32;"></i>
+                <h3>₹{{ "%.2f"|format(labor_total) }}</h3>
+                <p>Labor Total</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between">
+        <span><i class="bi bi-clock"></i> Recent Jobs</span>
+        <a href="{{ url_for('add_job') }}" class="btn btn-primary btn-sm"><i class="bi bi-plus"></i> Add New Job</a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr style="background: #000;">
+                        <th>Job No</th>
+                        <th>Date</th>
+                        <th>Customer Name</th>
+                        <th>Phone No</th>
+                        <th>Bike Name</th>
+                        <th>Bike Number</th>
+                        <th>Bike Problem</th>
+                        <th>Spare Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for job in recent %}
+                    <tr>
+                        <td><strong style="color: #ffd700;">{{ job.job_no }}</strong></td>
+                        <td>{{ job.date }}</td>
+                        <td>{{ job.customer_name }}</td>
+                        <td>{{ job.customer_phone }}</td>
+                        <td>{{ job.bike_name }}</td>
+                        <td>{{ job.bike_number }}</td>
+                        <td>{{ job.bike_problem }}</td>
+                        <td>₹{{ job.spare_price }}</td>
+                        <td><a href="{{ url_for('view_job', id=job.id) }}" class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

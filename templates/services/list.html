@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Service Jobs - BikeCare{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Service Jobs</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{{ url_for('add_service') }}" class="btn btn-sm btn-primary"><i class="bi bi-plus-circle"></i> New Job Card</a>
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <form method="GET" class="row g-3">
+            <div class="col-md-10">
+                <select class="form-select" name="status">
+                    <option value="">All Status</option>
+                    <option value="Received" {% if status_filter=='Received' %}selected{% endif %}>Received</option>
+                    <option value="Inspection" {% if status_filter=='Inspection' %}selected{% endif %}>Inspection</option>
+                    <option value="In Progress" {% if status_filter=='In Progress' %}selected{% endif %}>In Progress</option>
+                    <option value="Waiting for Spare Parts" {% if status_filter=='Waiting for Spare Parts' %}selected{% endif %}>Waiting for Spare Parts</option>
+                    <option value="Completed" {% if status_filter=='Completed' %}selected{% endif %}>Completed</option>
+                    <option value="Ready for Delivery" {% if status_filter=='Ready for Delivery' %}selected{% endif %}>Ready for Delivery</option>
+                    <option value="Delivered" {% if status_filter=='Delivered' %}selected{% endif %}>Delivered</option>
+                    <option value="Cancelled" {% if status_filter=='Cancelled' %}selected{% endif %}>Cancelled</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Filter</button>
+            </div>
+        </form>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Service ID</th>
+                        <th>Reg No</th>
+                        <th>Customer</th>
+                        <th>Phone</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in services %}
+                    <tr>
+                        <td>{{ s.service_id }}</td>
+                        <td>{{ s.registration_number }}</td>
+                        <td>{{ s.full_name }}</td>
+                        <td>{{ s.phone_primary }}</td>
+                        <td>{{ s.service_date }}</td>
+                        <td><span class="badge bg-warning">{{ s.status }}</span></td>
+                        <td><a href="{{ url_for('view_service', id=s.id) }}" class="btn btn-sm btn-info"><i class="bi bi-eye"></i> View</a></td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="7" class="text-center">No service records found</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

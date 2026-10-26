@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between">
+        <span><i class="bi bi-file-earmark-text"></i> JOB DETAILS - {{ job.job_no }}</span>
+        <div>
+            <a href="{{ url_for('bill', id=job.id) }}" class="btn btn-warning btn-sm"><i class="bi bi-receipt"></i> Generate Bill</a>
+            <a href="{{ url_for('jobs') }}" class="btn btn-secondary btn-sm"><i class="bi bi-arrow-left"></i> Back</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <p><strong>Customer Name:</strong> {{ job.customer_name }}</p>
+                <p><strong>Customer Phone Number:</strong> {{ job.customer_phone }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Bike Name:</strong> {{ job.bike_name }}</p>
+                <p><strong>Bike Number:</strong> {{ job.bike_number }}</p>
+            </div>
+        </div>
+        <hr style="border-color: #dc143c;">
+        <p><strong>Bike Problem:</strong><br>{{ job.bike_problem }}</p>
+        <hr style="border-color: #dc143c;">
+        <p><strong>Spare Price:</strong> ₹{{ job.spare_price }}</p>
+        <p><strong>Labor Price:</strong> ₹{{ job.labor_price }}</p>
+        <p><strong>Date:</strong> {{ job.date }}</p>
+        <p><strong>Notes:</strong> {{ job.notes or '-' }}</p>
+    </div>
+</div>
+{% endblock %}

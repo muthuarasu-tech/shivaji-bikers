@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block title %}Service Details - BikeCare{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Service Job: {{ service.service_id }}</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{{ url_for('services') }}" class="btn btn-sm btn-secondary"><i class="bi bi-arrow-left"></i> Back</a>
+        <button onclick="window.print()" class="btn btn-sm btn-primary ms-2"><i class="bi bi-printer"></i> Print Job Card</button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow mb-4">
+            <div class="card-header bg-primary text-white">
+                <h6 class="m-0">Customer & Bike Info</h6>
+            </div>
+            <div class="card-body">
+                <p><strong>Customer:</strong> {{ service.full_name }} ({{ service.cust_id }})</p>
+                <p><strong>Phone:</strong> {{ service.phone_primary }}</p>
+                <p><strong>Address:</strong> {{ service.address or '-' }}</p>
+                <hr>
+                <p><strong>Bike Reg No:</strong> {{ service.registration_number }}</p>
+                <p><strong>Brand/Model:</strong> {{ service.brand }} {{ service.model }}</p>
+                <p><strong>Engine No:</strong> {{ service.engine_number or '-' }}</p>
+                <p><strong>Odometer:</strong> {{ service.odometer_reading }} km</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow mb-4">
+            <div class="card-header bg-info text-white">
+                <h6 class="m-0">Service Details</h6>
+            </div>
+            <div class="card-body">
+                <p><strong>Service Date:</strong> {{ service.service_date }}</p>
+                <p><strong>Entry Time:</strong> {{ service.entry_time or '-' }}</p>
+                <p><strong>Mechanic:</strong> {{ service.assigned_mechanic or '-' }}</p>
+                <p><strong>Expected Delivery:</strong> {{ service.expected_delivery_date or '-' }} {{ service.expected_delivery_time or '' }}</p>
+                <p><strong>Status:</strong> <span class="badge bg-warning">{{ service.status }}</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header bg-secondary text-white">
+        <h6 class="m-0">Complaints & Work</h6>
+    </div>
+    <div class="card-body">
+        <p><strong>Customer Complaint:</strong><br>{{ service.customer_complaint or '-' }}</p>
+        <p><strong>Initial Inspection:</strong><br>{{ service.initial_inspection or '-' }}</p>
+        <p><strong>Work Requested:</strong><br>{{ service.work_requested or '-' }}</p>
+        <p><strong>Additional Notes:</strong><br>{{ service.additional_notes or '-' }}</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow mb-4">
+            <div class="card-header bg-warning">
+                <h6 class="m-0">Update Status</h6>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('update_status', id=service.id) }}">
+                    <div class="mb-3">
+                        <select class="form-select" name="status" required>
+                            <option value="Received" {% if service.status=='Received' %}selected{% endif %}>Received</option>
+                            <option value="Inspection" {% if service.status=='Inspection' %}selected{% endif %}>Inspection</option>
+                            <option value="Waiting for Approval" {% if service.status=='Waiting for Approval' %}selected{% endif %}>Waiting for Approval</option>
+                            <option value="Waiting for Spare Parts" {% if service.status=='Waiting for Spare Parts' %}selected{% endif %}>Waiting for Spare Parts</option>
+                            <option value="In Progress" {% if service.status=='In Progress' %}selected{% endif %}>In Progress</option>
+                            <option value="Completed" {% if service.status=='Completed' %}selected{% endif %}>Completed</option>
+                            <option value="Ready for Delivery" {% if service.status=='Ready for Delivery' %}selected{% endif %}>Ready for Delivery</option>
+                            <option value="Delivered" {% if service.status=='Delivered' %}selected{% endif %}>Delivered</option>
+                            <option value="Cancelled" {% if service.status=='Cancelled' %}selected{% endif %}>Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="notes" placeholder="Notes (optional)">
+                    </div>
+                    <button type="submit" class="btn btn-warning">Update Status</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow mb-4">
+            <div class="card-header bg-success text-white">
+                <h6 class="m-0">Invoice</h6>
+            </div>
+            <div class="card-body">
+                {% if invoice %}
+                <p><strong>Invoice No:</strong> {{ invoice.invoice_number }}</p>
+                <p><strong>Total:</strong> ₹{{ "%.2f"|format(invoice.final_total) }}</p>
+                <p><strong>Paid:</strong> ₹{{ "%.2f"|format(invoice.amount_paid) }}</p>
+                <p><strong>Balance:</strong> ₹{{ "%.2f"|format(invoice.balance_due) }}</p>
+                <p><strong>Status:</strong> <span class="badge bg-info">{{ invoice.payment_status }}</span></p>
+                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#paymentModal">Add Payment</button>
+                {% else %}
+                <form method="POST" action="{{ url_for('generate_invoice', service_id=service.id) }}">
+                    <div class="mb-2">
+                        <input type="number" step="0.01" class="form-control form-control-sm" name="additional_charges" placeholder="Additional Charges">
+                    </div>
+                    <div class="mb-2">
+                        <input type="number" step="0.01" class="form-control form-control-sm" name="discount" placeholder="Discount">
+                    </div>
+                    <button type="submit" class="btn btn-success btn-sm">Generate Invoice</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if invoice %}
+<div class="modal fade" id="paymentModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Payment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ url_for('add_payment') }}">
+                <div class="modal-body">
+                    <input type="hidden" name="invoice_id" value="{{ invoice.id }}">
+                    <input type="hidden" name="service_id" value="{{ service.id }}">
+                    <div class="mb-3">
+                        <label class="form-label">Amount Received</label>
+                        <input type="number" step="0.01" class="form-control" name="amount_received" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Payment Method</label>
+                        <select class="form-select" name="payment_method" required>
+                            <option value="Cash">Cash</option>
+                            <option value="UPI">UPI</option>
+                            <option value="Card">Card</option>
+                            <option value="Bank transfer">Bank transfer</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Payment Date</label>
+                        <input type="date" class="form-control" name="payment_date">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Transaction Ref</label>
+                        <input type="text" class="form-control" name="transaction_ref">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Notes</label>
+                        <input type="text" class="form-control" name="notes">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add Payment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+document.querySelector('#paymentModal input[name=payment_date]').valueAsDate = new Date();
+</script>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill {{ job.job_no }} - SHIVAJI BIKERS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Rajdhani', sans-serif; }
+        body { background: #e9ecef; padding: 20px; }
+        .invoice-box {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .invoice-header {
+            background: linear-gradient(90deg, #000000 0%, #dc143c 100%);
+            color: #fff;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .invoice-header img {
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid #ffd700;
+        }
+        .shop-name { font-size: 2rem; font-weight: 700; margin: 0; letter-spacing: 1px; }
+        .invoice-title { text-align: center; background: #0a0a0a; color: #ffd700; padding: 10px; font-weight: 700; letter-spacing: 3px; }
+        .invoice-body { padding: 25px; color: #111; }
+        .info-label { font-weight: 700; color: #dc143c; }
+        .table thead th { background: #0a0a0a; color: #fff; }
+        .table td { color: #111; font-size: 1.05rem; }
+        .total-row { background: #f8d7da; font-weight: 700; font-size: 1.2rem; }
+        .invoice-footer { background: #0a0a0a; color: #adb5bd; text-align: center; padding: 15px; font-size: 0.9rem; }
+        .actions { max-width: 800px; margin: 0 auto 15px; display: flex; gap: 10px; justify-content: flex-end; }
+        .btn-brand { background: linear-gradient(90deg, #dc143c, #ff0000); border: none; color: #fff; font-weight: 600; }
+        .btn-brand:hover { color: #fff; opacity: 0.9; }
+        @media print {
+            body { background: #fff; padding: 0; }
+            .actions { display: none; }
+            .invoice-box { box-shadow: none; max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="actions">
+        <a href="{{ url_for('billing') }}" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Back</a>
+        <button onclick="window.print()" class="btn btn-brand"><i class="bi bi-printer"></i> Print Bill</button>
+    </div>
+    <div class="invoice-box">
+        <div class="invoice-header">
+            <img src="{{ url_for('static', filename='logo.png') }}" onerror="this.src='{{ url_for('static', filename='logo.jpg') }}'">
+            <div>
+                <h1 class="shop-name">SHIVAJI BIKERS</h1>
+                <div>Bike Service &amp; Repair</div>
+            </div>
+        </div>
+        <div class="invoice-title">SERVICE BILL</div>
+        <div class="invoice-body">
+            <div class="row mb-3">
+                <div class="col-6">
+                    <div class="info-label">Bill No</div>
+                    <div>{{ job.job_no }}</div>
+                </div>
+                <div class="col-6 text-end">
+                    <div class="info-label">Bill Date</div>
+                    <div>{{ job.date }}</div>
+                </div>
+            </div>
+            <hr>
+            <div class="row mb-3">
+                <div class="col-md-6 mb-2">
+                    <div class="info-label">Customer Details</div>
+                    <div><strong>Name:</strong> {{ job.customer_name }}</div>
+                    <div><strong>Phone:</strong> {{ job.customer_phone }}</div>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <div class="info-label">Bike Details</div>
+                    <div><strong>Bike:</strong> {{ job.bike_name }}</div>
+                    <div><strong>Number:</strong> {{ job.bike_number }}</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="info-label">Bike Problem</div>
+                <div>{{ job.bike_problem }}</div>
+            </div>
+            <table class="table table-bordered mb-3">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Description</th>
+                        <th class="text-end">Amount (₹)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Spare Parts</td>
+                        <td class="text-end">{{ "%.2f"|format(job.spare_price) }}</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Labor Charges</td>
+                        <td class="text-end">{{ "%.2f"|format(job.labor_price) }}</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="2" class="text-end">TOTAL</td>
+                        <td class="text-end">₹{{ "%.2f"|format(job.total) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            {% if job.notes %}
+            <div class="mb-3">
+                <div class="info-label">Notes</div>
+                <div>{{ job.notes }}</div>
+            </div>
+            {% endif %}
+            <div class="text-end mt-4">
+                <div>For <strong>SHIVAJI BIKERS</strong></div>
+                <div style="margin-top: 40px;">Authorized Signature</div>
+            </div>
+        </div>
+        <div class="invoice-footer">
+            Thank you for choosing SHIVAJI BIKERS &mdash; Ride Safe!
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

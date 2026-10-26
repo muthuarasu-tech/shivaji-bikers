@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Service History - BikeCare{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Service History</h1>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <form method="GET" class="row g-3">
+            <div class="col-md-8">
+                <input type="text" class="form-control" name="reg_no" placeholder="Enter Bike Registration Number" value="{{ request.args.get('reg_no','') }}" required>
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary w-100"><i class="bi bi-search"></i> Search History</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if searched %}
+{% if bike %}
+<div class="card shadow mb-4">
+    <div class="card-header bg-primary text-white">
+        <h6 class="m-0">Bike & Owner Details</h6>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Reg No:</strong> {{ bike.registration_number }}</p>
+                <p><strong>Brand/Model:</strong> {{ bike.brand }} {{ bike.model }}</p>
+                <p><strong>Owner:</strong> {{ bike.full_name }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Phone:</strong> {{ bike.phone_primary }}</p>
+                <p><strong>Address:</strong> {{ bike.address or '-' }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow">
+    <div class="card-header bg-info text-white">
+        <h6 class="m-0">Service Records</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>Service ID</th>
+                        <th>Date</th>
+                        <th>Complaint</th>
+                        <th>Status</th>
+                        <th>Invoice</th>
+                        <th>Total</th>
+                        <th>Paid</th>
+                        <th>Balance</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in services %}
+                    <tr>
+                        <td>{{ s.service_id }}</td>
+                        <td>{{ s.service_date }}</td>
+                        <td>{{ s.customer_complaint[:30] }}...</td>
+                        <td><span class="badge bg-secondary">{{ s.status }}</span></td>
+                        <td>{{ s.invoice_number or '-' }}</td>
+                        <td>₹{{ "%.2f"|format(s.final_total or 0) }}</td>
+                        <td>₹{{ "%.2f"|format(s.amount_paid or 0) }}</td>
+                        <td>₹{{ "%.2f"|format(s.balance_due or 0) }}</td>
+                        <td><a href="{{ url_for('view_service', id=s.id) }}" class="btn btn-sm btn-info">View</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endif %}
+{% endblock %}

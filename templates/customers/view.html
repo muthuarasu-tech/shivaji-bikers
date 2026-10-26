@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}Customer Details - BikeCare{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Customer Details</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{{ url_for('customers') }}" class="btn btn-sm btn-secondary"><i class="bi bi-arrow-left"></i> Back</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card shadow mb-4">
+            <div class="card-header bg-primary text-white">
+                <h6 class="m-0">Customer Information</h6>
+            </div>
+            <div class="card-body">
+                <p><strong>Customer ID:</strong> {{ customer.customer_id }}</p>
+                <p><strong>Name:</strong> {{ customer.full_name }}</p>
+                <p><strong>Phone:</strong> {{ customer.phone_primary }}</p>
+                {% if customer.phone_alt %}<p><strong>Alt Phone:</strong> {{ customer.phone_alt }}</p>{% endif %}
+                <p><strong>City:</strong> {{ customer.city or '-' }}</p>
+                <p><strong>Address:</strong> {{ customer.address or '-' }}</p>
+                <p><strong>Notes:</strong> {{ customer.notes or '-' }}</p>
+                <p><strong>Registered:</strong> {{ customer.registration_date[:10] }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card shadow mb-4">
+            <div class="card-header bg-success text-white d-flex justify-content-between">
+                <h6 class="m-0">Bikes Owned</h6>
+                <a href="{{ url_for('add_bike') }}" class="btn btn-sm btn-light">Add Bike</a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Bike ID</th>
+                                <th>Reg No</th>
+                                <th>Brand/Model</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for b in bikes %}
+                            <tr>
+                                <td>{{ b.bike_id }}</td>
+                                <td>{{ b.registration_number }}</td>
+                                <td>{{ b.brand }} {{ b.model }}</td>
+                            </tr>
+                            {% else %}
+                            <tr><td colspan="3" class="text-center">No bikes registered</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="card shadow">
+            <div class="card-header bg-info text-white">
+                <h6 class="m-0">Service History</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Service ID</th>
+                                <th>Bike</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for s in services %}
+                            <tr>
+                                <td><a href="{{ url_for('view_service', id=s.id) }}">{{ s.service_id }}</a></td>
+                                <td>{{ s.registration_number }}</td>
+                                <td>{{ s.service_date }}</td>
+                                <td><span class="badge bg-secondary">{{ s.status }}</span></td>
+                            </tr>
+                            {% else %}
+                            <tr><td colspan="4" class="text-center">No services</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Add Spare Part - BikeCare{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Add Spare Part</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{{ url_for('inventory') }}" class="btn btn-sm btn-secondary"><i class="bi bi-arrow-left"></i> Back</a>
+    </div>
+</div>
+
+<div class="card shadow">
+    <div class="card-body">
+        <form method="POST">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="part_name" class="form-label">Part Name *</label>
+                    <input type="text" class="form-control" id="part_name" name="part_name" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="part_number" class="form-label">Part Number/SKU</label>
+                    <input type="text" class="form-control" id="part_number" name="part_number">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="brand" class="form-label">Brand</label>
+                    <input type="text" class="form-control" id="brand" name="brand">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="supplier_id" class="form-label">Supplier</label>
+                    <select class="form-select" id="supplier_id" name="supplier_id">
+                        <option value="">Select Supplier</option>
+                        {% for s in suppliers %}
+                        <option value="{{ s.id }}">{{ s.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label for="purchase_cost" class="form-label">Purchase Cost</label>
+                    <input type="number" step="0.01" class="form-control" id="purchase_cost" name="purchase_cost" value="0">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="selling_price" class="form-label">Selling Price</label>
+                    <input type="number" step="0.01" class="form-control" id="selling_price" name="selling_price" value="0">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="stock_quantity" class="form-label">Initial Stock</label>
+                    <input type="number" class="form-control" id="stock_quantity" name="stock_quantity" value="0">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="min_stock_level" class="form-label">Min Stock Level</label>
+                    <input type="number" class="form-control" id="min_stock_level" name="min_stock_level" value="5">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="2"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="notes" class="form-label">Notes</label>
+                <textarea class="form-control" id="notes" name="notes" rows="2"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Part</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

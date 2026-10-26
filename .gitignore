@@ -10,3 +10,7 @@ __pycache__/
 /backups/
 /build/
 /dist/
+node_modules/
+
+# Local Netlify folder
+.netlify

@@ -6,7 +6,6 @@ itsdangerous==2.1.2
 click==8.1.7
 blinker==1.7.0
 pdfkit==1.0.0
-weasyhtml==1.1
 reportlab==4.0.7
 pytest==7.4.3
 python-dateutil==2.8.2
